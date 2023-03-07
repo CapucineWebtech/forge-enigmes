@@ -8,3 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 
+let footer = document.getElementById("footer");
+let fakefooter = document.getElementById("fakeFooter");
+
+let footerHeight = footer.clientHeight;
+fakefooter.style.height = footerHeight + "px";
