@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('navBarComponent') }}
+    {{ component('navBarComponent', { userName: userName }) }}
     <div class="fe-form-container-container">
         <form method="post" class="fe-form-container">
             {% if error %}

@@ -13,11 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    {% if userName is defined %}
-        {{ component('navBarComponent', { userName: userName }) }}
-    {% else %}
-        {{ component('navBarComponent') }}
-    {% endif %}
+    {{ component('navBarComponent', { userName: userName }) }}
     <div class="container">
         <h1 class="text-center mt-5 mb-4">La Forge des Énigmes</h1>
         <div class="row">
