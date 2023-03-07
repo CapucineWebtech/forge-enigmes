@@ -4,19 +4,17 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('index') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('index') }}
 {% endblock %}
 
 {% block body %}
-    {{ component('navBarComponent', { userName: userName }) }}
+    {{ component('navBarComponent') }}
     <div class="container mt-5">
         <div class="row">
-            <h1 class="text-center mb-5">Mes objets</h1>
+            <h1 class="text-center mb-5">{% if is_granted('ROLE_ADMIN') %}Tous les objets{% else %}Mes objets{% endif %}</h1>
             {% for winegame in winegames %}
                 <div class="col-lg-4 col-md-6 col-12 mb-2">
                     <div class="card h-100">

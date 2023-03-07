@@ -13,10 +13,11 @@
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_index' %} active{% endif %}" href="{{ url('app_index') }}">Accueil</a>
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_contact' %} active{% endif %}" href="{{ url('app_contact') }}">Contact</a>
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_devis' %} active{% endif %}" href="{{ url('app_devis') }}">Devis</a>
-                {% if userName != "" %}<a class="nav-link{% if app.request.attributes.get('_route') == 'app_compte' %} active{% endif %}" href="{{ url('app_compte') }}">Mon compte</a>{% endif %}
+                {% if is_granted('ROLE_USER') %}<a class="nav-link{% if app.request.attributes.get('_route') == 'app_compte' %} active{% endif %}" href="{{ url('app_compte') }}">Mon compte</a>{% endif %}
+                {% if is_granted('ROLE_ADMIN') %}<a class="nav-link" href="#">Admin</a>{% endif %}
              </div>
 
-            {% if userName != "" %}
+            {% if is_granted('ROLE_USER') %}
                 <div class="d-flex justify-content-center">
                     <a href="{{ url('app_logout') }}" class="btn btn-danger">Déconnexion</a>
                 </div>

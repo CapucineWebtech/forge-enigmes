@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\WineGame;
-use App\Repository\WineGameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +24,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/compte', name: 'app_compte')]
-    public function compte(WineGameRepository $wineGameRepository): Response
+    public function compte(): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -33,7 +32,6 @@ class UserController extends AbstractController
         }
 
         $queryBuilder = $this->em->createQueryBuilder();
-
         $queryBuilder
             ->select('wg')
             ->from('App\Entity\WineGame', 'wg')
@@ -41,11 +39,16 @@ class UserController extends AbstractController
             ->where('u.id = :userId')
             ->setParameter('userId', $user->getId());
 
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $queryBuilder
+                ->select('wg1')
+                ->from('App\Entity\WineGame', 'wg1');
+        }
+
         $winegames = $queryBuilder->getQuery()->getResult();
 
         return $this->render('compte.html.twig', [
-            'winegames' => $winegames,
-            'userName' => $user->getUserIdentifier()
+            'winegames' => $winegames
         ]);
     }
 
@@ -54,12 +57,10 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
-        if (!$wineGame->getUser()->contains($user)) {
+        if (!$wineGame->getUser()->contains($user) && !($this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_compte');
         }
 
-        return $this->render('wineGame.html.twig', [
-            'userName' => $user->getUserIdentifier()
-        ]);
+        return $this->render('wineGame.html.twig');
     }
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Devis{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('navBarComponent', { userName: userName }) }}
+    {{ component('navBarComponent') }}
     <div class="fe-form-container-container">
         {% for message in app.flashes('successDevis') %}
             <div class="alert alert-success">

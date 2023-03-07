@@ -29,24 +29,12 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        $userName = "";
-        if ($user = $this->getUser()) {
-            $userName = $user->getUserIdentifier();
-        }
-
-        return $this->render('index.html.twig', [
-            'userName' => $userName
-        ]);
+        return $this->render('index.html.twig');
     }
 
     #[Route('/contact', name: 'app_contact')]
     public function contact(Request $request): Response
     {
-        $userName = "";
-        if ($user = $this->getUser()) {
-            $userName = $user->getUserIdentifier();
-        }
-
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
 
@@ -63,19 +51,13 @@ class HomeController extends AbstractController
         }
 
         return $this->render('contact.html.twig', [
-            'form' => $form->createView(),
-            'userName' => $userName
+            'form' => $form->createView()
         ]);
     }
 
     #[Route('/devis', name: 'app_devis')]
     public function devis(Request $request): Response
     {
-        $userName = "";
-        if ($user = $this->getUser()) {
-            $userName = $user->getUserIdentifier();
-        }
-
         $devis = new Devis();
         $form = $this->createForm(DevisType::class, $devis);
 
@@ -95,8 +77,7 @@ class HomeController extends AbstractController
         }
 
         return $this->render('devis.html.twig', [
-            'form' => $form->createView(),
-            'userName' => $userName
+            'form' => $form->createView()
         ]);
     }
 }
