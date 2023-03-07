@@ -1,0 +1,31 @@
+<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md">
+    <div class="container-fluid">
+        <a class="navbar-brand ms-3" href="{{ url('app_index') }}">
+            <img src="{{ asset('build/img/logo.png') }}" style="width: 152px;">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <div class="navbar-nav text-center">
+                <a class="nav-link{% if app.request.attributes.get('_route') == 'app_index' %} active{% endif %}" href="{{ url('app_index') }}">Accueil</a>
+                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="#">Devis</a>
+                {% if userName is defined %}<a class="nav-link" href="#">Mon compte</a>{% endif %}
+             </div>
+
+            {% if userName is defined %}
+                <div class="d-flex justify-content-center">
+                    <a href="{{ url('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+                </div>
+            {% else %}
+                <div class="d-flex justify-content-center">
+                     <a href="{{ url('app_login') }}" class="btn btn-info">Connexion</a>
+                 </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div style="height: 70px;"></div>

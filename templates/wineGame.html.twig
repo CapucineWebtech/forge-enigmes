@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Wine Game{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('wineGame') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('wineGame') }}
+{% endblock %}
+
+{% block body %}
+    {{ component('navBarComponent', { userName: userName }) }}
+    <div>wine game</div>
+{% endblock %}

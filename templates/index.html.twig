@@ -1,0 +1,292 @@
+{% extends "base.html.twig" %}
+
+{% block title %}La forge des énigmes{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('index') }}
+{% endblock %}
+
+{% block body %}
+    {% if userName is defined %}
+        {{ component('navBarComponent', { userName: userName }) }}
+    {% else %}
+        {{ component('navBarComponent') }}
+    {% endif %}
+    <div class="container">
+        <h1 class="text-center mt-5 mb-4">La Forge des Énigmes</h1>
+        <div class="row">
+            <div class="row align-items-center my-4">
+                <div class="col-md-6 d-grid mb-4 mb-md-0">
+                    <h2 class="mb-4">Notre produit phare du moment</h2>
+                    <h3>Le Globe Mystérieux</h3>
+                    <p>Un globe terrestre en bois qui renferme une clé secrète. Pour l'ouvrir, les joueurs doivent résoudre une série d'énigmes complexes qui les mèneront à découvrir le code d'accès.</p>
+                    <button type="button" class="btn btn-info">Demander un devis</button>
+                </div>
+                <div class="col-md-6">
+                    <img class="bloc1-img" src="{{ asset('build/img/Le_Globe_Mystérieux.jpg') }}" alt="Le Globe mystérieux">
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center justify-content-center mx-2 mt-5">
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+                Partenaire de plus de 15 escape game
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es1.png') }}" class="d-block w-100" alt="Partenaire 1">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es2.png') }}" class="d-block w-100" alt="Partenaire 2">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es3.png') }}" class="d-block w-100" alt="Partenaire 3">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es4.png') }}" class="d-block w-100" alt="Partenaire 4">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es5.png') }}" class="d-block w-100" alt="Partenaire 5">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es6.png') }}" class="d-block w-100" alt="Partenaire 6">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es7.png') }}" class="d-block w-100" alt="Partenaire 7">
+            </div>
+            <div class="col-2 col-md-1 px-1 mb-3">
+                <img src="{{ asset('build/img/escapes/es8.png') }}" class="d-block w-100" alt="Partenaire 8">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <br/>
+                <hr/>
+            </div>
+        </div>
+
+        <h2 class="text-center my-5">Nos solutions déjà existantes</h2>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-12 mb-2">
+                <div class="card h-100">
+                    <img src="{{ asset('build/img/La_Lanterne_Enchantée.jpg') }}" class="card-img-top bloc3-img">
+                    <div class="card-body d-grid">
+                        <h5 class="card-title">La Lanterne Enchantée</h5>
+                        <p class="card-text">Une lanterne magique dotée de pouvoirs mystérieux. Les joueurs doivent résoudre une série d'énigmes visuelles pour faire apparaître une clé secrète cachée à l'intérieur.</p>
+                        <a href="#" class="btn btn-info">Demande de devis</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 mb-2">
+                <div class="card h-100">
+                    <img src="{{ asset('build/img/Le_Cadre_Mystérieux.jpg') }}" class="card-img-top bloc3-img">
+                    <div class="card-body d-grid">
+                        <h5 class="card-title">Le Cadre Mystérieux</h5>
+                        <p class="card-text">Un cadre en bois qui renferme une clé secrète. Les joueurs doivent résoudre une série d'énigmes visuelles pour découvrir le code d'accès et récupérer la clé cachée à l'intérieur.</p>
+                        <a href="#" class="btn btn-info">Demande de devis</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 mb-2">
+                <div class="card h-100">
+                    <img src="{{ asset('build/img/La_Pendule_Magique.jpg') }}" class="card-img-top bloc3-img">
+                    <div class="card-body d-grid">
+                        <h5 class="card-title">La Pendule Magique</h5>
+                        <p class="card-text">Une pendule ancienne dotée de pouvoirs magiques. Les joueurs doivent résoudre une série d'énigmes visuelles pour déverrouiller le mécanisme et découvrir la clé cachée à l'intérieur.</p>
+                        <a href="#" class="btn btn-info">Demande de devis</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <br/>
+                <hr/>
+            </div>
+        </div>
+
+        <h2 class="text-center my-5">Besoin d'une solution personnaliser ?</h2>
+        <div class="d-flex">
+            <a href="#" class="btn btn-info btn-lg mx-auto">Demande de devis</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <br/>
+                <hr/>
+            </div>
+        </div>
+
+        <h2 class="text-center my-5">Qui sommes nous ?</h2>
+        <div class="row">
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="bloc5-container-picto"><img class="w-100" src="{{ asset('build/img/icones/forge.png') }}"></div>
+                <h3 class="mb-4">Esprit de l'entreprise</h3>
+                <p>Chez La Forge des Énigmes, nous sommes convaincus que le jeu peut être un moyen puissant d'apprentissage et de renforcement de l'esprit d'équipe. <br><br>Notre entreprise est animée par une passion pour la création d'expériences ludiques et stimulantes qui défient l'esprit et encouragent la coopération. Nous croyons que chaque objet que nous fabriquons doit apporter une valeur ajoutée unique et aider les joueurs à se rapprocher les uns des autres tout en s'amusant. <br><br>Nous travaillons avec enthousiasme et détermination pour créer des produits de qualité qui sont à la fois amusants et éducatifs.</p>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="bloc5-container-picto"><img class="w-100" src="{{ asset('build/img/icones/fabrique-en-france.png') }}"></div>
+                <h3 class="mb-4">Made in France</h3>
+                <p>Nous sommes fiers de dire que tous nos produits sont fabriqués en France. Nous croyons fermement à la valeur de la production locale, en termes de qualité, de durabilité et de responsabilité sociale. <br><br>Nous travaillons en collaboration avec des artisans locaux pour concevoir et fabriquer nos produits, en utilisant des matériaux de haute qualité pour garantir leur solidité et leur longévité. Nous sommes fiers de soutenir l'économie française et de contribuer à la promotion du savoir-faire artisanal français.</p>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="bloc5-container-picto"><img class="w-100" src="{{ asset('build/img/icones/equipe.png') }}"></div>
+                <h3 class="mb-4">Notre équipe</h3>
+                <p>Notre entreprise est composée d'une équipe passionnée de professionnels talentueux, déterminés à créer les meilleurs produits possibles pour nos clients. Nous avons une culture d'entreprise qui favorise la créativité, l'innovation et la collaboration. <br><br>Chaque membre de notre équipe apporte une expertise unique, qui se combine pour créer des produits uniques et de qualité. Nous sommes fiers de travailler ensemble pour créer des expériences de jeu qui apportent de la joie et de l'apprentissage à nos clients.</p>
+            </div>
+            <div class="col-lg-6 col-12 mb-4">
+                <div class="bloc5-container-picto"><img class="w-100" src="{{ asset('build/img/icones/poignee-de-main.png') }}"></div>
+                <h3 class="mb-4">Notre engagement envers nos clients</h3>
+                <p>Notre entreprise La Forge des Énigmes s'engage à offrir des produits de qualité, conçus pour offrir des expériences de jeu amusantes, stimulantes et éducatives. <br><br>Nous sommes passionnés par la création d'expériences qui défient l'esprit et encouragent la coopération. Nous travaillons en étroite collaboration avec nos clients pour comprendre leurs besoins et leurs attentes, afin de concevoir des produits qui répondent à leurs exigences spécifiques. <br><br>Nous sommes fiers de notre engagement à offrir un excellent service et de notre volonté de satisfaire pleinement les besoins de notre clientèle.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <br/>
+                <hr/>
+            </div>
+        </div>
+
+        <h2 class="text-center my-5">Témoignage</h2>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-12 my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile1.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="woman avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Sophia</strong></p>
+                                <p class="fw-bold text-muted mb-0">Énigmes Évasions</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted fw-light">
+                            Nous avons acheté l'objet 'Le Sceau Magique' et nous avons été impressionnés par la qualité de l'énigme. Nos joueurs l'ont adoré.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12 my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile2.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="man avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Lucas</strong></p>
+                                <p class="fw-bold text-muted mb-0">Labyrinthe Live</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted fw-light">
+                            La Forge des Énigmes a vraiment fait un excellent travail pour les mécanismes de notre salle 'Le Secret de la Pyramide'. J'espère pouvoir retravailler avec eux très vite.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12 my-2">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile3.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="woman avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Gabrielle</strong></p>
+                                <p class="fw-bold text-muted mb-0">Lock Academy</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted fw-light">
+                            Nous sommes extrêmement satisfaits de nos achats chez La Forge des Énigmes. Leurs énigmes connectées pour notre salle d'escape game sont exceptionnelles ! Nous recommandons vivement La Forge des Énigmes à quiconque cherche à améliorer son expérience d'escape game.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 my-2 d-none d-md-block">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile4.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="woman avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Amélie</strong></p>
+                                <p class="fw-bold text-muted mb-0">Mystery Escape</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted fw-light">
+                            J'ai cherché pendant des mois une solution personnalisable, jusqu'à trouver La Forge des Énigmes. Capable de s'adapter à toutes nos exigences, ce fut un plaisir de travailler avec eux. Depuis, notre salle a connu un grand succès, encore merci.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 my-2 d-none d-lg-block">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile5.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="man avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Julien</strong></p>
+                                <p class="fw-bold text-muted mb-0">Echappe Toi Si Tu Peux</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted fw-light">
+                            Nous avons été ravis de travailler avec La Forge des Énigmes pour la création de notre salle d'escape game. Leur équipe a été très professionnelle et leurs produits ont été un véritable succès auprès de nos joueurs. Bref, une expérience très enrichissante et positive.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 my-2 d-none d-lg-block">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4 d-flex justify-content-center align-items-center">
+                                <img src="{{ asset('build/img/profile/profile6.jpg') }}"
+                                     class="rounded-circle img-fluid shadow-1" alt="man avatar" width="200" height="200" />
+                            </div>
+                            <div class="col-8">
+                                <p class="fw-bold lead mb-0"><strong>Maxime</strong></p>
+                                <p class="fw-bold text-muted mb-0">Get Out!</p>
+                            </div>
+                        </div>
+                        <div class="text-muted fw-light mt-3">
+                            La salle 'L'Énigme de la Fortune' a été un véritable succès grâce aux énigmes sur mesure proposées par La Forge des Énigmes. Nos joueurs ont été captivés du début à la fin.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <a href="#" class="btn btn-outline-info btn-lg mx-auto mt-4 mb-5">Nous contacter</a>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+{% endblock %}
