@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
+use App\Entity\Devis;
 use App\Form\ContactType;
+use App\Form\DevisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +63,37 @@ class HomeController extends AbstractController
                 'userName' => $user->getUserIdentifier()
             ]);
         }
-
         return $this->render('contact.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/devis', name: 'app_devis')]
+    public function devis(Request $request): Response
+    {
+        $devis = new Devis();
+        $form = $this->createForm(DevisType::class, $devis);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($devis);
+            $this->em->flush();
+
+            $this->addFlash(
+                'successDevis',
+                "Devis envoyer"
+            );
+            return $this->redirectToRoute('app_devis');
+        }
+
+        if ($this->getUser()) {
+            $user = $this->getUser();
+            return $this->render('devis.html.twig', [
+                'form' => $form->createView(),
+                'userName' => $user->getUserIdentifier()
+            ]);
+        }
+        return $this->render('devis.html.twig', [
             'form' => $form->createView()
         ]);
     }

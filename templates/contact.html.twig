@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -20,10 +20,7 @@
                 {{ message }}
             </div>
         {% endfor %}
-        <div class="fe-form-container">
-            {% if form_errors(form.email) %}
-                <div class="alert alert-danger">{{ form_errors(form.email) }}</div>
-            {% endif %}
+        <div class="fe-form-container fe-form-big-container">
             <h1 class="text-center">Contactez-nous</h1>
             {{ form_start(form) }}
             <div class="form-group mb-2">

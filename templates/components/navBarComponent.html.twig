@@ -12,7 +12,7 @@
             <div class="navbar-nav text-center">
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_index' %} active{% endif %}" href="{{ url('app_index') }}">Accueil</a>
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_contact' %} active{% endif %}" href="{{ url('app_contact') }}">Contact</a>
-                <a class="nav-link" href="#">Devis</a>
+                <a class="nav-link{% if app.request.attributes.get('_route') == 'app_devis' %} active{% endif %}" href="{{ url('app_devis') }}">Devis</a>
                 {% if userName is defined %}<a class="nav-link" href="#">Mon compte</a>{% endif %}
              </div>
 
