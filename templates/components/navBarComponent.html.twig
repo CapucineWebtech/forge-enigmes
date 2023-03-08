@@ -14,7 +14,7 @@
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_contact' %} active{% endif %}" href="{{ url('app_contact') }}">Contact</a>
                 <a class="nav-link{% if app.request.attributes.get('_route') == 'app_devis' %} active{% endif %}" href="{{ url('app_devis') }}">Devis</a>
                 {% if is_granted('ROLE_USER') %}<a class="nav-link{% if app.request.attributes.get('_route') == 'app_compte' %} active{% endif %}" href="{{ url('app_compte') }}">Mon compte</a>{% endif %}
-                {% if is_granted('ROLE_ADMIN') %}<a class="nav-link" href="#">Admin</a>{% endif %}
+                {% if is_granted('ROLE_ADMIN') %}<a class="nav-link{% if app.request.attributes.get('_route') == 'app_admin' %} active{% endif %}" href="{{ url('app_admin') }}">Admin</a>{% endif %}
              </div>
 
             {% if is_granted('ROLE_USER') %}

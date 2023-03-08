@@ -12,5 +12,58 @@
 
 {% block body %}
     {{ component('navBarComponent') }}
+    <div class="container mt-4">
+        {% for message in app.flashes('successDelete') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="w-0">Email</th>
+                    <th scope="col">Message</th>
+                    <th scope="col" class="w-0">Bouton</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.message }}</td>
+                    <td>
+                        <form action="{{ url('app_deleteContact', { id: contact.id }) }}" method="post">
+                            <input type="hidden" name="token" value="{{ csrf_token('delete-contact'~contact.id) }}"/>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th scope="col" class="w-0">Email</th>
+                <th scope="col">Objet du devis</th>
+                <th scope="col" class="w-0">Budget</th>
+                <th scope="col" class="w-0">Bouton</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for devis in deviss %}
+                <tr>
+                    <td>{{ devis.email }}</td>
+                    <td>{{ devis.devisName }}</td>
+                    <td>{{ devis.budget }}</td>
+                    <td>
+                        <a href="{{ url('app_devisRead', { id: devis.id }) }}" class="btn btn-info">Voir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {{ component('footerComponent') }}
 {% endblock %}
