@@ -13,8 +13,14 @@
 {% block body %}
     {{ component('navBarComponent') }}
     <div class="container mt-5">
+        {% for message in app.flashes('successWineGame') %}
+            <div class="alert alert-success mt-2">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="row">
             <h1 class="text-center mb-5">{% if is_granted('ROLE_ADMIN') %}Tous les objets{% else %}Mes objets{% endif %}</h1>
+            {% if is_granted('ROLE_ADMIN') %}<a href="{{ url('app_newWineGame') }}" class="btn btn-outline-dark mb-3">Ajouter une machine</a>{% endif %}
             {% for winegame in winegames %}
                 <div class="col-lg-4 col-md-6 col-12 mb-2">
                     <div class="card h-100">

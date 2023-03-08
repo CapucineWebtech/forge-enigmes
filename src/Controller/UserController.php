@@ -7,6 +7,7 @@ use App\Entity\Devis;
 use App\Entity\User;
 use App\Entity\WineGame;
 use App\Form\UserWineGameType;
+use App\Form\WineGameType;
 use App\Repository\ContactRepository;
 use App\Repository\DevisRepository;
 use App\Repository\UserRepository;
@@ -67,15 +68,39 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/newWineGame', name: 'app_newWineGame')]
+    public function newWineGame(Request $request): Response
+    {
+        if (!($this->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_compte');
+        }
+
+        $wineGame = new WineGame();
+        $form = $this->createForm(WineGameType::class, $wineGame);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($wineGame);
+            $this->em->flush();
+
+            $this->addFlash(
+                'successWineGame',
+                "Objet créer"
+            );
+            return $this->redirectToRoute('app_compte');
+        }
+
+        return $this->render('newWineGame.html.twig', [
+            'form' => $form
+        ]);
+    }
+
     #[Route('/winegame/{id}', name: 'app_wineGame')]
     public function winegame(WineGame $wineGame): Response
     {
         $user = $this->getUser();
-
         if (!$wineGame->getUser()->contains($user) && !($this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_compte');
         }
-
         if($this->isGranted('ROLE_MACHINE')) {
             return $this->redirectToRoute('app_index');
         }
@@ -111,7 +136,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user-machine', name: 'app_user-machine')]
-    public function userMachine(UserRepository $userRepository, WineGameRepository $wineGameRepository, Request $request): Response
+    public function userMachine(UserRepository $userRepository, Request $request): Response
     {
         if (!($this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_compte');
