@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Entity\Devis;
+use App\Entity\User;
 use App\Entity\WineGame;
+use App\Form\UserWineGameType;
 use App\Repository\ContactRepository;
 use App\Repository\DevisRepository;
+use App\Repository\UserRepository;
+use App\Repository\WineGameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,6 +40,10 @@ class UserController extends AbstractController
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
+        }
+
+        if($this->isGranted('ROLE_MACHINE')) {
+            return $this->redirectToRoute('app_index');
         }
 
         $queryBuilder = $this->em->createQueryBuilder();
@@ -68,6 +76,10 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_compte');
         }
 
+        if($this->isGranted('ROLE_MACHINE')) {
+            return $this->redirectToRoute('app_index');
+        }
+
         return $this->render('wineGame.html.twig');
     }
 
@@ -96,6 +108,60 @@ class UserController extends AbstractController
         return $this->render('devis-read.html.twig', [
             'devis' => $devis
         ]);
+    }
+
+    #[Route('/user-machine', name: 'app_user-machine')]
+    public function userMachine(UserRepository $userRepository, WineGameRepository $wineGameRepository, Request $request): Response
+    {
+        if (!($this->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_compte');
+        }
+
+        $users = $userRepository->findAll();
+        $links = array();
+        foreach ($users as $user) {
+            foreach ($user->getWineGames() as $game) {
+                $links[] = array(
+                    'user' => $user,
+                    'game' => $game
+                );
+            }
+        }
+
+        $form = $this->createForm(UserWineGameType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->get('user')->getData();
+            $game = $form->get('wineGame')->getData();
+            $user->addWineGame($game);
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash(
+                'successAdd',
+                "Le lien à bien été créer"
+            );
+            return $this->redirectToRoute('app_user-machine');
+        }
+
+        return $this->render('user-machine.html.twig', [
+            'links' => $links,
+            'form' => $form
+        ]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/deleteUserWineGame/{user}/{game}', name: 'app_deleteUser-WineGame', methods: ['POST'])]
+    public function deleteUserGameLink(User $user, WineGame $game, Request $request): Response
+    {
+        $submittedToken = $request->request->get('token');
+
+        if ($this->isCsrfTokenValid('delete-user-wineGame'.$user->getId().$game->getId(), $submittedToken)) {
+            $user->removeWineGame($game);
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute('app_user-machine');
     }
 
     #[IsGranted('ROLE_ADMIN')]
