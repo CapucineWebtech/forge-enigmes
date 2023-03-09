@@ -6,19 +6,21 @@ use App\Entity\Contact;
 use App\Entity\Devis;
 use App\Entity\User;
 use App\Entity\WineGame;
+use App\Form\UpdateWineGameType;
 use App\Form\UserWineGameType;
 use App\Form\WineGameType;
 use App\Repository\ContactRepository;
 use App\Repository\DevisRepository;
 use App\Repository\UserRepository;
-use App\Repository\WineGameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class UserController extends AbstractController
 {
@@ -95,7 +97,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/winegame/{id}', name: 'app_wineGame')]
-    public function winegame(WineGame $wineGame): Response
+    public function winegame(WineGame $wineGame, Request $request): Response
     {
         $user = $this->getUser();
         if (!$wineGame->getUser()->contains($user) && !($this->isGranted('ROLE_ADMIN'))) {
@@ -105,7 +107,107 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        return $this->render('wineGame.html.twig');
+        $form = $this->createForm(UpdateWineGameType::class, $wineGame, [
+            'wineGame' => $wineGame
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $jsonPadlock = [
+                'padlockIsOpen' => $form->get('padlockIsOpen')->getData(),
+            ];
+            $urlPadlock = "http://winegamePadlock" . $wineGame->getId() . "/updatePadlock";
+
+            $jsonBottle = [
+                'music' => $form->get('music')->getData(),
+                'temperature' => $form->get('temperature')->getData(),
+                'bottleCode' => $form->get('bottleCode')->getData(),
+            ];
+            $urlBottle = "http://winegameBottle" . $wineGame->getId() . "/updateBottle";
+
+            $client = HttpClient::create();
+            try {
+                $response = $client->request('POST', $urlPadlock, [
+                    'json' => $jsonPadlock
+                ]);
+                if ($response->getStatusCode() === 200) {
+                    $this->addFlash(
+                        'success',
+                        "Données envoyer à la cave à vin"
+                    );
+                } else {
+                    $this->addFlash(
+                        'error',
+                        "La cave à vin ne répond pas"
+                    );
+                }
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash(
+                    'error',
+                    "Erreur lors de l'envoi de données à la cave à vin"
+                );
+            }
+
+            try {
+                $response = $client->request('POST', $urlBottle, [
+                    'json' => $jsonBottle
+                ]);
+                if ($response->getStatusCode() === 200) {
+                    $this->addFlash(
+                        'success',
+                        "Données envoyer à la bouteille"
+                    );
+                } else {
+                    $this->addFlash(
+                        'error',
+                        "La bouteille ne répond pas"
+                    );
+                }
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash(
+                    'error',
+                    "Erreur lors de l'envoi de données à la bouteille"
+                );
+            }
+
+            $this->em->persist($wineGame);
+            $this->em->flush();
+
+            sleep(4);
+
+            return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
+        }
+
+        return $this->render('wineGame.html.twig', [
+            'form' => $form,
+            'wineGame' => $wineGame
+        ]);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/activateBottle/{id}', name: 'app_activateBottle')]
+    public function activateBottle(WineGame $wineGame)
+    {
+        $client = HttpClient::create();
+        try {
+            $response = $client->request('GET', "http://winegameBottle" . $wineGame->getId() . "/activeBottle");
+            if ($response->getStatusCode() === 200) {
+                $this->addFlash(
+                    'success',
+                    "La bouteille sonne"
+                );
+            } else {
+                $this->addFlash(
+                    'error',
+                    "Erreur lors de la connexion à la bouteille"
+                );
+            }
+        } catch (TransportExceptionInterface $e) {
+            $this->addFlash(
+                'error',
+                "Erreur lors de la connexion à la bouteille"
+            );
+        }
+        return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
     }
 
     #[Route('/admin', name: 'app_admin')]
