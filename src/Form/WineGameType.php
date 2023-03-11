@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\WineGame;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Type;
 
 class WineGameType extends AbstractType
 {
@@ -20,9 +20,6 @@ class WineGameType extends AbstractType
     {
         $builder
             ->add('wineGameName')
-            ->add('padlockIsOpen', CheckboxType::class, [
-                'label' => 'Cadenas ouvert'
-            ])
             ->add('music', ChoiceType::class, [
                 'choices'  => [
                     'Musique 1' => '0',
@@ -35,33 +32,25 @@ class WineGameType extends AbstractType
             ])
             ->add('temperature', NumberType::class, [
                 'scale' => 2,
-                'constraints' => [
-                    new Range([
-                        'min' => 10,
-                        'max' => 25,
-                        'notInRangeMessage' => 'La température doit être entre {{ min }} et {{ max }}'
-                    ])
-                ]
             ])
             ->add('bottleCode', TextType::class, [
                 'constraints' => [
                     new Length([
                         'min' => 4,
-                        'minMessage' => 'Veuillez remplir 4 caractères',
                         'max' => 4,
-                        'maxMessage' => 'Veuillez remplir 4 caractères',
                     ]),
                     new Regex([
                         'pattern' => '/^\d+$/',
-                        'message' => 'Veuillez remplir des nombres'
+                        'message' => 'Please enter a number.'
                     ])
                 ]
             ])
-
             ->add('userCodeName')
             ->add('userCode')
             ->add('adminCode')
             ->add('hint')
+            ->add('ipBottle')
+            ->add('ipPadlock')
         ;
     }
 

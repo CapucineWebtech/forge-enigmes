@@ -82,6 +82,12 @@ class WineGame
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'wineGames')]
     private Collection $user;
 
+    #[ORM\Column(length: 255)]
+    private ?string $ipBottle = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ipPadlock = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -220,6 +226,30 @@ class WineGame
     public function removeUser(User $user): self
     {
         $this->user->removeElement($user);
+
+        return $this;
+    }
+
+    public function getIpBottle(): ?string
+    {
+        return $this->ipBottle;
+    }
+
+    public function setIpBottle(string $ipBottle): self
+    {
+        $this->ipBottle = $ipBottle;
+
+        return $this;
+    }
+
+    public function getIpPadlock(): ?string
+    {
+        return $this->ipPadlock;
+    }
+
+    public function setIpPadlock(string $ipPadlock): self
+    {
+        $this->ipPadlock = $ipPadlock;
 
         return $this;
     }

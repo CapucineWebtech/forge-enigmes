@@ -71,7 +71,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/newWineGame', name: 'app_newWineGame')]
-    public function newWineGame(Request $request): Response
+    public function newWineGame(UserRepository $userRepository, Request $request): Response
     {
         if (!($this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_compte');
@@ -81,6 +81,9 @@ class UserController extends AbstractController
         $form = $this->createForm(WineGameType::class, $wineGame);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $userRepository->findOneBy(["email" => $this->getUser()->getUserIdentifier()]);
+            $wineGame->setPadlockIsOpen(0);
+            $wineGame->addUser($user);
             $this->em->persist($wineGame);
             $this->em->flush();
 
@@ -107,73 +110,15 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        $form = $this->createForm(UpdateWineGameType::class, $wineGame, [
-            'wineGame' => $wineGame
-        ]);
+        $form = $this->createForm(UpdateWineGameType::class, $wineGame);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $jsonPadlock = [
-                'padlockIsOpen' => $form->get('padlockIsOpen')->getData(),
-            ];
-            $urlPadlock = "http://winegamePadlock" . $wineGame->getId() . "/updatePadlock";
-
-            $jsonBottle = [
-                'music' => $form->get('music')->getData(),
-                'temperature' => $form->get('temperature')->getData(),
-                'bottleCode' => $form->get('bottleCode')->getData(),
-            ];
-            $urlBottle = "http://winegameBottle" . $wineGame->getId() . "/updateBottle";
-
-            $client = HttpClient::create();
-            try {
-                $response = $client->request('POST', $urlPadlock, [
-                    'json' => $jsonPadlock
-                ]);
-                if ($response->getStatusCode() === 200) {
-                    $this->addFlash(
-                        'success',
-                        "Données envoyer à la cave à vin"
-                    );
-                } else {
-                    $this->addFlash(
-                        'error',
-                        "La cave à vin ne répond pas"
-                    );
-                }
-            } catch (TransportExceptionInterface $e) {
-                $this->addFlash(
-                    'error',
-                    "Erreur lors de l'envoi de données à la cave à vin"
-                );
-            }
-
-            try {
-                $response = $client->request('POST', $urlBottle, [
-                    'json' => $jsonBottle
-                ]);
-                if ($response->getStatusCode() === 200) {
-                    $this->addFlash(
-                        'success',
-                        "Données envoyer à la bouteille"
-                    );
-                } else {
-                    $this->addFlash(
-                        'error',
-                        "La bouteille ne répond pas"
-                    );
-                }
-            } catch (TransportExceptionInterface $e) {
-                $this->addFlash(
-                    'error',
-                    "Erreur lors de l'envoi de données à la bouteille"
-                );
-            }
-
             $this->em->persist($wineGame);
             $this->em->flush();
-
-            sleep(4);
-
+            $this->addFlash(
+                'success',
+                "Données mises à jour. Redémarrez la bouteille pour que les changements soient effectifs."
+            );
             return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
         }
 
@@ -189,7 +134,7 @@ class UserController extends AbstractController
     {
         $client = HttpClient::create();
         try {
-            $response = $client->request('GET', "http://winegameBottle" . $wineGame->getId() . "/activeBottle");
+            $response = $client->request('GET', "http://" . $wineGame->getIpBottle() . "/activeBottle");
             if ($response->getStatusCode() === 200) {
                 $this->addFlash(
                     'success',
@@ -205,6 +150,33 @@ class UserController extends AbstractController
             $this->addFlash(
                 'error',
                 "Erreur lors de la connexion à la bouteille"
+            );
+        }
+        return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/activatePadlock/{id}', name: 'app_activatePadlock')]
+    public function activatePadlock(WineGame $wineGame)
+    {
+        $client = HttpClient::create();
+        try {
+            $response = $client->request('GET', "http://" . $wineGame->getIpPadlock() . "/activePadlock");
+            if ($response->getStatusCode() === 200) {
+                $this->addFlash(
+                    'success',
+                    $response->getContent()
+                );
+            } else {
+                $this->addFlash(
+                    'error',
+                    "Erreur lors de la connexion au cadenas"
+                );
+            }
+        } catch (TransportExceptionInterface $e) {
+            $this->addFlash(
+                'error',
+                "Erreur lors de la connexion au cadenas"
             );
         }
         return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
