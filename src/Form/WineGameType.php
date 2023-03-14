@@ -49,8 +49,6 @@ class WineGameType extends AbstractType
             ->add('userCode')
             ->add('adminCode')
             ->add('hint')
-            ->add('ipBottle')
-            ->add('ipPadlock')
         ;
     }
 

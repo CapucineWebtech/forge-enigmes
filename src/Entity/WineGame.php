@@ -82,11 +82,8 @@ class WineGame
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'wineGames')]
     private Collection $user;
 
-    #[ORM\Column(length: 255)]
-    private ?string $ipBottle = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $ipPadlock = null;
+    #[ORM\Column]
+    private ?bool $bottleRing = null;
 
     public function __construct()
     {
@@ -230,26 +227,14 @@ class WineGame
         return $this;
     }
 
-    public function getIpBottle(): ?string
+    public function isBottleRing(): ?bool
     {
-        return $this->ipBottle;
+        return $this->bottleRing;
     }
 
-    public function setIpBottle(string $ipBottle): self
+    public function setBottleRing(bool $bottleRing): self
     {
-        $this->ipBottle = $ipBottle;
-
-        return $this;
-    }
-
-    public function getIpPadlock(): ?string
-    {
-        return $this->ipPadlock;
-    }
-
-    public function setIpPadlock(string $ipPadlock): self
-    {
-        $this->ipPadlock = $ipPadlock;
+        $this->bottleRing = $bottleRing;
 
         return $this;
     }
