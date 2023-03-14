@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Entity\Devis;
+use App\Entity\WineGame;
 use App\Form\ContactType;
 use App\Form\DevisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,16 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('index.html.twig');
+    }
+
+    #[Route('/api/wine_games/{id}/objRequest', name: 'api_objRequest')]
+    public function objRequest(WineGame $wineGame)
+    {
+        $jsonData = ['isPadlockIsOpen' => $wineGame->isPadlockIsOpen(), 'isBottleRing' => $wineGame->isBottleRing()];
+        $wineGame->setBottleRing(0);
+        $this->em->persist($wineGame);
+        $this->em->flush();
+        return new JsonResponse($jsonData);
     }
 
     #[Route('/contact', name: 'app_contact')]

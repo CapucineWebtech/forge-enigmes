@@ -21,9 +21,9 @@ use Symfony\Component\Validator\Constraints\Range;
 
 #[ORM\Entity(repositoryClass: WineGameRepository::class)]
 #[ApiResource]
-#[Get(normalizationContext: ['groups' => ['read:One:WineGame']])]
-#[GetCollection(normalizationContext: ['groups' => ['read:WineGame:collection']])]
-#[Put(security: "is_granted('ROLE_MACHINE')")]
+#[Get(normalizationContext: ['groups' => ['read:One:WineGame']], security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
+#[GetCollection(normalizationContext: ['groups' => ['read:WineGame:collection']], security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
+#[Put(security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
 #[Delete(controller: NotFoundAction::class, output: false, read: false)]
 #[Post(controller: NotFoundAction::class, output: false, read: false)]
 #[Patch(controller: NotFoundAction::class, output: false, read: false)]
@@ -32,7 +32,7 @@ class WineGame
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:WineGame:collection', 'read:One:WineGame'])]
+    #[Groups(['read:WineGame:collection', 'read:One:WineGame', 'read:One:WineGame:ObjRequest'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -83,6 +83,7 @@ class WineGame
     private Collection $user;
 
     #[ORM\Column]
+    #[Groups(['read:One:WineGame'])]
     private ?bool $bottleRing = null;
 
     public function __construct()
