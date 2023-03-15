@@ -138,7 +138,7 @@ class UserController extends AbstractController
         $this->em->flush();
         $this->addFlash(
             'success',
-            "La bouteille sonne"
+            "La bouteille va sonner."
         );
         return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
     }

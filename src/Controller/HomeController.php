@@ -37,7 +37,14 @@ class HomeController extends AbstractController
     #[Route('/api/wine_games/{id}/objRequest', name: 'api_objRequest')]
     public function objRequest(WineGame $wineGame)
     {
-        $jsonData = ['isPadlockIsOpen' => $wineGame->isPadlockIsOpen(), 'isBottleRing' => $wineGame->isBottleRing()];
+        $jsonData = ['isPadlockIsOpen' => $wineGame->isPadlockIsOpen()];
+        return new JsonResponse($jsonData);
+    }
+
+    #[Route('/api/wine_games/{id}/objRequestBottle', name: 'api_objRequestBottle')]
+    public function objRequestBottle(WineGame $wineGame)
+    {
+        $jsonData = ['isBottleRing' => $wineGame->isBottleRing()];
         $wineGame->setBottleRing(0);
         $this->em->persist($wineGame);
         $this->em->flush();
