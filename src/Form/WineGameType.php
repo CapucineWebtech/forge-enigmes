@@ -10,9 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Type;
 
 class WineGameType extends AbstractType
 {
@@ -22,12 +20,10 @@ class WineGameType extends AbstractType
             ->add('wineGameName')
             ->add('music', ChoiceType::class, [
                 'choices'  => [
-                    'Musique 1' => '0',
-                    'Musique 2' => '1',
-                    'Musique 3' => '2',
-                    'Musique 4' => '3',
-                    'Musique 5' => '4',
-                    "Musique 6" => '5'
+                    'Pirate des caraibes' => '0',
+                    'Harry potter' => '1',
+                    'Mario' => '2',
+                    'Joyeux anniversaire' => '3'
                 ],
             ])
             ->add('temperature', NumberType::class, [

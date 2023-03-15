@@ -46,7 +46,7 @@ class WineGame
 
     #[ORM\Column]
     #[Groups(['read:One:WineGame'])]
-    #[Range(min: 0, max: 5)]
+    #[Range(min: 0, max: 3)]
     private ?int $music = null;
 
     #[ORM\Column]

@@ -6,7 +6,6 @@ use App\Entity\Contact;
 use App\Entity\Devis;
 use App\Entity\User;
 use App\Entity\WineGame;
-use App\Form\UpdateWineGameType;
 use App\Form\UserWineGameType;
 use App\Form\WineGameType;
 use App\Repository\ContactRepository;
@@ -14,13 +13,11 @@ use App\Repository\DevisRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class UserController extends AbstractController
 {
@@ -111,7 +108,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        $form = $this->createForm(UpdateWineGameType::class, $wineGame);
+        $form = $this->createForm(WineGameType::class, $wineGame);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($wineGame);
