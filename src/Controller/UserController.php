@@ -6,6 +6,7 @@ use App\Entity\Contact;
 use App\Entity\Devis;
 use App\Entity\User;
 use App\Entity\WineGame;
+use App\Form\NewWineGameType;
 use App\Form\UserWineGameType;
 use App\Form\WineGameType;
 use App\Repository\ContactRepository;
@@ -75,7 +76,7 @@ class UserController extends AbstractController
         }
 
         $wineGame = new WineGame();
-        $form = $this->createForm(WineGameType::class, $wineGame);
+        $form = $this->createForm(NewWineGameType::class, $wineGame);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $userRepository->findOneBy(["email" => $this->getUser()->getUserIdentifier()]);

@@ -50,6 +50,11 @@
                     {{ form_widget(form.adminCode, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.adminCode) }}
                 </div>
+                <div class="col-12 col-md-6 mb-3">
+                    {{ form_label(form.cookiePass, "Valeur cookie") }}
+                    {{ form_widget(form.cookiePass, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.cookiePass) }}
+                </div>
                 <div class="col-12 mb-3">
                     {{ form_label(form.hint, "Indice") }}
                     {{ form_widget(form.hint, {'attr': {'class': 'form-control'}}) }}

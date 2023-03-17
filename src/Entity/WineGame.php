@@ -86,6 +86,9 @@ class WineGame
     #[Groups(['read:One:WineGame'])]
     private ?bool $bottleRing = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $cookiePass = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -236,6 +239,18 @@ class WineGame
     public function setBottleRing(bool $bottleRing): self
     {
         $this->bottleRing = $bottleRing;
+
+        return $this;
+    }
+
+    public function getCookiePass(): ?string
+    {
+        return $this->cookiePass;
+    }
+
+    public function setCookiePass(string $cookiePass): self
+    {
+        $this->cookiePass = $cookiePass;
 
         return $this;
     }
