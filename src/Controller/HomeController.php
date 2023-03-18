@@ -64,7 +64,7 @@ class HomeController extends AbstractController
 
             $this->addFlash(
                 'successContact',
-                "Formulaire de contact envoyer"
+                "Formulaire de contact envoyé."
             );
             return $this->redirectToRoute('app_contact');
         }
@@ -90,7 +90,7 @@ class HomeController extends AbstractController
 
             $this->addFlash(
                 'successDevis',
-                "Devis envoyer"
+                "Devis envoyé."
             );
             return $this->redirectToRoute('app_devis');
         }

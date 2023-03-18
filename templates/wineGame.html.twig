@@ -28,7 +28,7 @@
         {{ form_start(form) }}
         <div class="row">
             <div class="col-12 col-md-6 mb-3">
-                {{ form_label(form.wineGameName, 'Nom de la machine') }}
+                {{ form_label(form.wineGameName, 'Nom de votre Wine Game') }}
                 {{ form_widget(form.wineGameName, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.wineGameName) }}
             </div>
@@ -38,7 +38,7 @@
                 {{ form_errors(form.music) }}
             </div>
             <div class="col-12 col-md-6 mb-3">
-                {{ form_label(form.temperature, 'Sur la bouteille : Température de déclanchement') }}
+                {{ form_label(form.temperature, 'Sur la bouteille : Température de déclenchement') }}
                 {{ form_widget(form.temperature, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.temperature) }}
             </div>
@@ -53,12 +53,12 @@
                 {{ form_errors(form.userCodeName) }}
             </div>
             <div class="col-12 col-md-6 mb-3">
-                {{ form_label(form.userCode, "Sur appli mobile : Code à rentrer pour l'utilisateur") }}
+                {{ form_label(form.userCode, "Sur appli mobile : Code utilisateur") }}
                 {{ form_widget(form.userCode, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.userCode) }}
             </div>
             <div class="col-12 col-md-6 mb-3">
-                {{ form_label(form.adminCode, "Sur appli mobile : Code à rentrer pour l'administateur") }}
+                {{ form_label(form.adminCode, "Sur appli mobile : Code administateur") }}
                 {{ form_widget(form.adminCode, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.adminCode) }}
             </div>
@@ -68,9 +68,9 @@
                 {{ form_errors(form.hint) }}
             </div>
             <div class="col-12 mt-3 mb-3">
-                <a class="btn btn-dark" href="{{ url('app_activateBottle', { id: wineGame.id }) }}">Activer la bouteille</a>
-                <a class="btn btn-dark" href="{{ url('app_activatePadlock', { id: wineGame.id }) }}">Ouvrir/fermer le cadenas</a>
                 <button type="submit" class="btn btn-info">Enregistrer les modifications</button>
+                <a class="btn btn-dark" href="{{ url('app_activateBottle', { id: wineGame.id }) }}">Activer la bouteille</a>
+                <a class="btn btn-dark" href="{{ url('app_activatePadlock', { id: wineGame.id }) }}">{% if wineGame.padlockIsOpen %}Reprendre le comportement normal du cadenas{% else %}Ouvrir le cadenas{% endif %}</a>
             </div>
         </div>
         {{ form_end(form) }}

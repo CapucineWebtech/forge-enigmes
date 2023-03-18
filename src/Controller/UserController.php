@@ -88,7 +88,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'successWineGame',
-                "Objet créer"
+                "Wine Game créé"
             );
             return $this->redirectToRoute('app_compte');
         }
@@ -116,7 +116,7 @@ class UserController extends AbstractController
             $this->em->flush();
             $this->addFlash(
                 'success',
-                "Données mises à jour. Redémarrez la bouteille pour que les changements soient effectifs."
+                "Données mises à jour. Pour que les changements sur la bouteille soient effectifs, veuillez la redémarrer."
             );
             return $this->redirectToRoute('app_wineGame', ['id' => $wineGame->getId()]);
         }
@@ -149,7 +149,7 @@ class UserController extends AbstractController
             $wineGame->setPadlockIsOpen(0);
             $this->addFlash(
                 'success',
-                "Le cadenas se ferme"
+                "Le cadenas reprend son comportement par défaut"
             );
         }else{
             $wineGame->setPadlockIsOpen(1);
@@ -219,7 +219,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'successAdd',
-                "Le lien à bien été créer"
+                "Le lien a bien été créé"
             );
             return $this->redirectToRoute('app_user-machine');
         }
@@ -257,7 +257,7 @@ class UserController extends AbstractController
 
         $this->addFlash(
             'successDelete',
-            "Le message à bien été supprimée."
+            "Le message a bien été supprimé."
         );
         return $this->redirectToRoute('app_admin');
     }
@@ -275,7 +275,7 @@ class UserController extends AbstractController
 
         $this->addFlash(
             'successDelete',
-            "Le devis à bien été supprimée."
+            "Le devis a bien été supprimé."
         );
         return $this->redirectToRoute('app_admin');
     }
