@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Range;
 #[ApiResource]
 #[Get(normalizationContext: ['groups' => ['read:One:WineGame']], security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
 #[GetCollection(normalizationContext: ['groups' => ['read:WineGame:collection']], security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
-#[Put(security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
+#[Put(normalizationContext: ['groups' => ['read:One:WineGame']], security: "is_granted('ROLE_MACHINE') or is_granted('ROLE_ADMIN')")]
 #[Delete(controller: NotFoundAction::class, output: false, read: false)]
 #[Post(controller: NotFoundAction::class, output: false, read: false)]
 #[Patch(controller: NotFoundAction::class, output: false, read: false)]
@@ -32,7 +32,7 @@ class WineGame
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:WineGame:collection', 'read:One:WineGame', 'read:One:WineGame:ObjRequest'])]
+    #[Groups(['read:WineGame:collection', 'read:One:WineGame'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
